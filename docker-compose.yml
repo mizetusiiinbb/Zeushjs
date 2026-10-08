@@ -1,0 +1,8 @@
+services:
+  obfuscator:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      PORT: "8000"
+      MAX_SOURCE_BYTES: "2000000"

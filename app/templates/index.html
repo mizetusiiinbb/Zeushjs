@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CF Worker Obfuscator</title>
+<link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+<div class="bg"></div>
+<main class="shell">
+  <header class="top">
+    <div class="brand"><div class="logo">⌬</div><div><b>CF Worker Obfuscator</b><span>Production JavaScript protection toolkit</span></div></div>
+    <div class="pill">CLOUDFLARE WORKER</div>
+  </header>
+
+  <section class="hero">
+    <div>
+      <div class="eyebrow">SOURCE → PROTECT → VALIDATE</div>
+      <h1>Obfuscate your Worker<br><em>without losing its logic.</em></h1>
+      <p>Upload a JavaScript file, paste source, or fetch a trusted raw GitHub URL. The engine validates syntax before and after transformation.</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="tabs">
+      <button class="tab active" data-tab="url">Source URL</button>
+      <button class="tab" data-tab="file">Upload file</button>
+      <button class="tab" data-tab="paste">Paste code</button>
+    </div>
+
+    <div id="urlPane" class="pane active">
+      <label>Raw source URL</label>
+      <input id="url" placeholder="https://raw.githubusercontent.com/owner/repo/main/worker.js">
+      <small>Allowed sources: raw.githubusercontent.com, github.com and gist.githubusercontent.com</small>
+    </div>
+    <div id="filePane" class="pane">
+      <label>JavaScript source</label>
+      <div class="drop" id="drop">Drop a .js / .mjs file here or <b>choose file</b><input id="file" type="file" accept=".js,.mjs,text/javascript"></div>
+      <div id="filename" class="file-name"></div>
+    </div>
+    <div id="pastePane" class="pane">
+      <label>JavaScript source</label>
+      <textarea id="source" spellcheck="false" placeholder="Paste your Worker source here…"></textarea>
+    </div>
+
+    <div class="section-title">Protection profile <span>Cloudflare-safe defaults</span></div>
+    <div class="grid">
+      <label class="switch"><input id="identifier_names" type="checkbox" checked><i></i><span><b>Identifier renaming</b><small>Obscures local names</small></span></label>
+      <label class="switch"><input id="string_array" type="checkbox" checked><i></i><span><b>String protection</b><small>String array + encoding</small></span></label>
+      <label class="switch"><input id="dead_code" type="checkbox" checked><i></i><span><b>Dead-code injection</b><small>Adds inert decoys</small></span></label>
+      <label class="switch"><input id="control_flow" type="checkbox"><i></i><span><b>Control-flow protection</b><small>Stronger, test carefully</small></span></label>
+      <label class="switch"><input id="self_defending" type="checkbox"><i></i><span><b>Self-defending</b><small>More resistant to formatting</small></span></label>
+      <label class="switch"><input id="disable_console" type="checkbox"><i></i><span><b>Disable console output</b><small>Suppresses console calls</small></span></label>
+    </div>
+
+    <div class="advanced">
+      <label>String encoding
+        <select id="string_encoding"><option value="base64">Base64</option><option value="rc4">RC4 — stronger / slower</option></select>
+      </label>
+      <label class="compact"><input id="compact" type="checkbox" checked> Compact output</label>
+    </div>
+
+    <button id="run" class="run"><span>Protect JavaScript</span><strong>→</strong></button>
+    <div id="status" class="status"></div>
+  </section>
+
+  <section id="result" class="result hidden">
+    <div class="result-head"><div><div class="eyebrow">VALIDATED OUTPUT</div><h2>Your protected Worker is ready.</h2></div><button id="download" class="download">Download .js</button></div>
+    <div class="stats"><div><span>Original</span><b id="orig">—</b></div><div><span>Output</span><b id="out">—</b></div><div><span>Expansion</span><b id="ratio">—</b></div><div><span>Validation</span><b>✓ Passed</b></div></div>
+    <textarea id="output" readonly spellcheck="false"></textarea>
+  </section>
+
+  <footer>Obfuscation increases reverse-engineering cost; it is not encryption. Always test the generated Worker before production deployment.</footer>
+</main>
+<script src="/static/app.js"></script>
+</body>
+</html>
